@@ -4,3 +4,7 @@
     width: 320px;
     height: 480px;
 }
+
+#buttons {
+    border: 1px solid black;
+}

@@ -14,10 +14,14 @@
     </script>
 </head>
 <body>
-    <div class="flag"><img th:src="@{${'/images/' + id + '.png'}}"/></div>
-    <form>
+    <div class="flag">
+        
+        <img th:src="@{'data:image/png;base64,'+${flag}}"/>
+        <img th:src="@{${'/images/' + id + '.png'}}"/>
+    </div>
+    <div id="buttons">
         <label>Flag</label>
         <input type="number" min="1" max="3" th:value="${id}" onChange="change_flag(this.value);"/>
-    </form>
+    </div>
 </body>
 </html>

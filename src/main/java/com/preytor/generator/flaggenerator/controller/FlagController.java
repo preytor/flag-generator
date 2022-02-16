@@ -14,19 +14,21 @@ public class FlagController {
     @RequestMapping("/")
     public String getFlagImage(
         @RequestParam(value = "id", defaultValue = "1") int id,
-        @RequestParam(value = "division_field", defaultValue = "1") int division_field,
+        @RequestParam(value = "division_field", defaultValue = "0") int division_field,
+        @RequestParam(value = "furs", defaultValue = "0") int furs,
+        @RequestParam(value = "cadency", defaultValue = "0") int cadency,
+        @RequestParam(value = "heraldic_charges", defaultValue = "0") int heraldic_charges,
         Model model){
         model.addAttribute("id", id);
 
         String color1 = "";
         String color2 = "";
         String color3 = "";
-        
-        int furs = 0;
-        int cadency = 0;
-        int heraldic_charges = 0;
+        String color4 = "";
+        String color5 = "";
+        String color6 = "";
 
-        Flag flag = new Flag(color1, color2, color3, division_field, furs, cadency, heraldic_charges);
+        Flag flag = new Flag(color1, color2, color3, color4, color5, color6, division_field, furs, cadency, heraldic_charges);
         FlagImageGenerator fig = new FlagImageGenerator(flag);
         fig.processFlagImageGenerator();
         model.addAttribute("flag", fig.imgToBase64String());

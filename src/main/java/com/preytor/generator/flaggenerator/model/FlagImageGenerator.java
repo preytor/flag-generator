@@ -1,10 +1,8 @@
 package com.preytor.generator.flaggenerator.model;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.WritableRaster;
 import java.awt.Image;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -29,33 +27,34 @@ public class FlagImageGenerator {
 
     public void processFlagImageGenerator(){
         String directory = "src/main/resources/assets/";
+        if (this.flag.getFurs() > 0){
+            // We load the furs image
+            BufferedImage img_fur = processImage(this.flag.getFurs(), directory, "furs/furs_", new Color(155, 0, 255));
+            Graphics2D g = final_image.createGraphics();
+            g.drawImage(img_fur, 0, 0, null);
+            g.dispose();
+        }
         if (this.flag.getDivision_field() > 0){
             // We load the division_field image
-            BufferedImage img_division_field = new BufferedImage(32, 48, BufferedImage.TYPE_INT_ARGB);
-            try {
-                String division_directory = directory+"division_field/division_"+this.flag.getDivision_field()+".png";
-                img_division_field = ImageIO.read(new File(division_directory));
-            } catch (IOException e) {
-                String division_directory = "division_field/division_1.png";
-                try {
-                    img_division_field = ImageIO.read(new File(division_directory));
-                } catch (IOException e1) {
-                    //e1.printStackTrace();
-                }
-            }
-            img_division_field = colorImage(img_division_field, new Color(255, 0, 255));//new Color(255, 0, 255));//new Color(255, 255, 255));
+            BufferedImage img_division_field = processImage(this.flag.getDivision_field(), directory, "division_field/division_", new Color(255, 0, 255));
+            
             Graphics2D g = final_image.createGraphics();
             g.drawImage(img_division_field, 0, 0, null);
             g.dispose();
         }
-        if (this.flag.getFurs() > 0){
-
-        }
         if (this.flag.getCadency() > 0){
-
+            // We load the cadency image
+            BufferedImage img_cadency = processImage(this.flag.getCadency(), directory, "cadency/cadency_", new Color(255, 0, 155));
+            Graphics2D g = final_image.createGraphics();
+            g.drawImage(img_cadency, 0, 0, null);
+            g.dispose();
         }
         if (this.flag.getHeraldic_charges() > 0){
-
+            // We load the heraldic_charges image
+            BufferedImage img_heraldic_charges = processImage(this.flag.getHeraldic_charges(), directory, "heraldic_charges/heraldic_charges_", new Color(255, 255, 0));
+            Graphics2D g = final_image.createGraphics();
+            g.drawImage(img_heraldic_charges, 0, 12, null);
+            g.dispose();
         }
 
         this.resize(final_image, newW, newH);
@@ -94,6 +93,24 @@ public class FlagImageGenerator {
             }
         }
         return image;
+    }
+
+    private BufferedImage processImage(int flag_id, String directory, String texture_type_dir, Color color){
+        // We load the flag_symbol image
+        BufferedImage img_flag_symbol = new BufferedImage(32, 48, BufferedImage.TYPE_INT_ARGB);
+        try {
+            String division_directory = directory+texture_type_dir+flag_id+".png";
+            img_flag_symbol = ImageIO.read(new File(division_directory));
+        } catch (IOException e) {
+            String division_directory = texture_type_dir+"1.png";
+            try {
+                img_flag_symbol = ImageIO.read(new File(division_directory));
+            } catch (IOException e1) {
+                //e1.printStackTrace();
+            }
+        }
+        img_flag_symbol = colorImage(img_flag_symbol, color);
+        return img_flag_symbol;
     }
 
     public BufferedImage getFinal_image() {

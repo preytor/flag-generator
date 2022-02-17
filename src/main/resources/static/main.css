@@ -13,13 +13,16 @@
   border: 2px solid black;
 }
 
+.color-button{
+  width: 100px;
+}
+
 .color_font {
   text-align: center;
 }
 
 /* Style buttons */
 .btn {
-  background-color: DodgerBlue; /* Blue background */
   border: none; /* Remove borders */
   color: white; /* White text */
   padding: 12px 16px; /* Some padding */
@@ -27,7 +30,55 @@
   cursor: pointer; /* Mouse pointer on hover */
 }
 
+.btn-hover{  
+  background-color: rgb(100, 100, 100);
+}
+
+.btn-number{
+  background-color: rgb(100, 100, 100);
+}
+
 /* Darker background on mouse-over */
-.btn:hover {
-  background-color: RoyalBlue;
-} 
+.btn-hover:hover {
+  background-color: rgb(79, 87, 110);
+}
+
+.SABLE {
+  background-color: rgb(42, 29, 13);
+}
+
+.ARGENT {
+  background-color: rgb(239, 216, 161);
+}
+
+.GULES {
+  background-color: rgb(155, 26, 10);
+}
+
+.TENNE {
+  background-color: rgb(239, 105, 47);
+}
+
+.VERT {
+  background-color: rgb(57, 87, 28);
+}
+
+.MURREY {
+  background-color: rgb(133, 0, 133);
+}
+
+.OR {
+  background-color: rgb(239, 172, 40);
+}
+
+.AZURE {
+  background-color: rgb(56, 76, 188);
+}
+
+.LEONARDO {
+  background-color: rgb(119, 52, 33);
+}
+
+.SANGUINE {
+  background-color: rgb(85, 15, 10);
+}

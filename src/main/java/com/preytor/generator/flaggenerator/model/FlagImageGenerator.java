@@ -27,36 +27,31 @@ public class FlagImageGenerator {
 
     public void processFlagImageGenerator(){
         String directory = "src/main/resources/assets/";
+        // We draw the background color of the image
+        Graphics2D g = final_image.createGraphics();
+        g.setColor(this.flag.getColor1().getColor());
+        g.fillRect(0, 0, final_image.getWidth(), final_image.getHeight());
         if (this.flag.getFurs() > 0){
             // We load the furs image
-            BufferedImage img_fur = processImage(this.flag.getFurs(), directory, "furs/furs_", new Color(155, 0, 255));
-            Graphics2D g = final_image.createGraphics();
+            BufferedImage img_fur = processImage(this.flag.getFurs(), directory, "furs/furs_", this.flag.getColor2().getColor());
             g.drawImage(img_fur, 0, 0, null);
-            g.dispose();
         }
         if (this.flag.getDivision_field() > 0){
             // We load the division_field image
-            BufferedImage img_division_field = processImage(this.flag.getDivision_field(), directory, "division_field/division_", new Color(255, 0, 255));
-            
-            Graphics2D g = final_image.createGraphics();
+            BufferedImage img_division_field = processImage(this.flag.getDivision_field(), directory, "division_field/division_", this.flag.getColor3().getColor());
             g.drawImage(img_division_field, 0, 0, null);
-            g.dispose();
         }
         if (this.flag.getCadency() > 0){
             // We load the cadency image
-            BufferedImage img_cadency = processImage(this.flag.getCadency(), directory, "cadency/cadency_", new Color(255, 0, 155));
-            Graphics2D g = final_image.createGraphics();
+            BufferedImage img_cadency = processImage(this.flag.getCadency(), directory, "cadency/cadency_", this.flag.getColor4().getColor());
             g.drawImage(img_cadency, 0, 0, null);
-            g.dispose();
         }
         if (this.flag.getHeraldic_charges() > 0){
             // We load the heraldic_charges image
-            BufferedImage img_heraldic_charges = processImage(this.flag.getHeraldic_charges(), directory, "heraldic_charges/heraldic_charges_", new Color(255, 255, 0));
-            Graphics2D g = final_image.createGraphics();
+            BufferedImage img_heraldic_charges = processImage(this.flag.getHeraldic_charges(), directory, "heraldic_charges/heraldic_charges_", this.flag.getColor5().getColor());
             g.drawImage(img_heraldic_charges, 0, 12, null);
-            g.dispose();
         }
-
+        g.dispose();
         this.resize(final_image, newW, newH);
     }
 

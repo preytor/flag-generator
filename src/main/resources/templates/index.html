@@ -5,169 +5,391 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Flag Generator</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script>
-        function change_flag(value){
-            window.location.href="./?id="+value;
-        }
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script th:inline="javascript">
+        jQuery(document).ready(($) => {
+            var division_field = /*[[${division_field}]]*/ "0";
+            var furs = /*[[${furs}]]*/ "0";
+            var cadency = /*[[${cadency}]]*/ "0";
+            var heraldic_charges = /*[[${heraldic_charges}]]*/ "0";
+
+            var color1_number = /*[[${color1_number}]]*/ "0";
+            var color2_number = /*[[${color2_number}]]*/ "0";
+            var color3_number = /*[[${color3_number}]]*/ "0";
+            var color4_number = /*[[${color4_number}]]*/ "0";
+            var color5_number = /*[[${color5_number}]]*/ "0";
+            
+            var total_division_field = /*[[${total_division_field}]]*/ "0";
+            var total_furs = /*[[${total_furs}]]*/ "0";
+            var total_cadency = /*[[${total_cadency}]]*/ "0";
+            var total_heraldic_charges = /*[[${total_heraldic_charges}]]*/ "0";
+            var total_colors = /*[[${total_colors}]]*/ "0";
+
+            function change_value(current, operation, total){
+                value_to_return = 0;
+                if (operation === "+"){
+                    if ((current + 1) <= total){
+                        value_to_return = current + 1;
+                    }
+                }else if(operation === "-"){
+                    if ((current - 1) >= 0){
+                        value_to_return = current - 1;
+                    }else{
+                        value_to_return = total;
+                    }
+                }
+                return value_to_return;
+            }
+
+            function change_flag(){
+                window.location.href="./?division_field="+division_field+
+                                    "&furs="+furs+
+                                    "&cadency="+cadency+
+                                    "&heraldic_charges="+heraldic_charges+
+                                    "&color1="+color1_number+
+                                    "&color2="+color2_number+
+                                    "&color3="+color3_number+
+                                    "&color4="+color4_number+
+                                    "&color5="+color5_number;
+            }
+
+            $('#background-less').click(function(){
+                console.log("clicked #background-less")
+                color1_number = change_value(color1_number, '-', total_colors); 
+                change_flag();
+            });
+
+            $('#background-more').click(function(){
+                console.log("clicked #background-more")
+                color1_number = change_value(color1_number, '+', total_colors); 
+                change_flag();
+            });
+
+            $('#division-field-less').click(function(){
+                division_field = change_value(division_field, '-', total_division_field); 
+                change_flag();
+            });
+
+            $('#division-field-more').click(function(){
+                division_field = change_value(division_field, '+', total_division_field); 
+                change_flag();
+            });
+            
+            $('#color2-less').click(function(){
+                console.log("clicked #background-less")
+                color2_number = change_value(color2_number, '-', total_colors); 
+                change_flag();
+            });
+
+            $('#color2-more').click(function(){
+                console.log("clicked #background-more")
+                color2_number = change_value(color2_number, '+', total_colors); 
+                change_flag();
+            });
+
+            $('#furs-less').click(function(){
+                furs = change_value(furs, '-', total_furs); 
+                change_flag();
+            });
+
+            $('#furs-more').click(function(){
+                furs = change_value(furs, '+', total_furs); 
+                change_flag();
+            });
+
+            $('#color3-less').click(function(){
+                console.log("clicked #background-less")
+                color3_number = change_value(color3_number, '-', total_colors); 
+                change_flag();
+            });
+
+            $('#color3-more').click(function(){
+                
+                color3_number = change_value(color3_number, '+', total_colors); 
+                change_flag();
+            });
+
+            $('#cadency-less').click(function(){
+                cadency = change_value(cadency, '-', total_cadency); 
+                change_flag();
+            });
+
+            $('#cadency-more').click(function(){
+                cadency = change_value(cadency, '+', total_cadency); 
+                change_flag();
+            });
+
+            $('#color4-less').click(function(){
+                color4_number = change_value(color4_number, '-', total_colors); 
+                change_flag();
+            });
+
+            $('#color4-more').click(function(){
+                color4_number = change_value(color4_number, '+', total_colors); 
+                change_flag();
+            });
+
+            $('#heraldic-charges-less').click(function(){
+                heraldic_charges = change_value(heraldic_charges, '-', total_heraldic_charges); 
+                change_flag();
+            });
+
+            $('#heraldic-charges-more').click(function(){
+                heraldic_charges = change_value(heraldic_charges, '+', total_heraldic_charges); 
+                change_flag();
+            });
+            
+            $('#color5-less').click(function(){
+                color5_number = change_value(color5_number, '-', total_colors); 
+                change_flag();
+            });
+
+            $('#color5-more').click(function(){
+                color5_number = change_value(color5_number, '+', total_colors); 
+                change_flag();
+            });
+            
+        });
     </script>
 </head>
 <body>
     <div class="flag">
-        
         <img th:src="@{'data:image/png;base64,'+${flag}}"/>
-        <img th:src="@{${'/images/' + id + '.png'}}"/>
     </div>
-    <div id="buttons">
-        <label>Flag</label>
-        <input type="number" min="1" max="3" th:value="${id}" onChange="change_flag(this.value);"/>
+        <div class="color-buttons btn-group col">
+            <div class="col-12">
+                <div class="row-12 border">
+                    <label class="color_font">Background Color</label> 
+                </div>
+                <div class="row-12 border">
+                    <button class="btn btn-hover btn-outline-secondary" type="button" id="background-less">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
+                            <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
+                        </svg>    
+                    </button>
+
+                    <span class="btn btn-outline-secondary color-button" th:classappend="${color1}" th:text="${color1}"></span>
+
+                    <button class="btn btn-hover btn-outline-secondary" type="button" id="background-more">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
+                            <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    </button>   
+                </div>
+            </div>
+        </div>
+        <div class="color-buttons btn-group col">
+            <div class="col-12">
+                <div class="row-12 border">
+                    <label class="color_font">Furs</label> 
+                </div>
+                <div class="row-12 border">
+                    <button class="btn btn-hover btn-outline-secondary" type="button" id="furs-less">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
+                            <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
+                        </svg>    
+                    </button>
+
+                    <span class="btn btn-outline-secondary color-button btn-number" th:text="@{${furs+'/'+total_furs}}"></span>
+
+                    <button class="btn btn-hover btn-outline-secondary" type="button" id="furs-more">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
+                            <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    </button>   
+                </div>
+            </div>
+        </div>
+
+
+        <div class="color-buttons btn-group col">
+            <div class="col-12">
+                <div class="row-12 border">
+                    <label class="color_font">Furs Color</label> 
+                </div>
+                <div class="row-12 border">
+                    <button class="btn btn-hover btn-outline-secondary" type="button" id="color2-less">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
+                            <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
+                        </svg>    
+                    </button>
+
+                    <span class="btn btn-outline-secondary color-button" th:classappend="${color2}" th:text="${color2}"></span>
+
+                    <button class="btn btn-hover btn-outline-secondary" type="button" id="color2-more">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
+                            <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    </button>   
+                </div>
+            </div>
+        </div>
+        
+
+
+
+        <div class="color-buttons btn-group col">
+            <div class="col-12">
+                <div class="row-12 border">
+                    <label class="color_font">Division Field</label> 
+                </div>
+                <div class="row-12 border">
+                    <button class="btn btn-hover btn-outline-secondary" type="button" id="division-field-less">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
+                            <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
+                        </svg>    
+                    </button>
+
+                    <span class="btn btn-outline-secondary color-button btn-number" th:text="@{${division_field+'/'+total_division_field}}"></span>
+
+                    <button class="btn btn-hover btn-outline-secondary" type="button" id="division-field-more">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
+                            <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="color-buttons btn-group col">
+            <div class="col-12">
+                <div class="row-12 border">
+                    <label class="color_font">Division Field Color</label> 
+                </div>
+                <div class="row-12 border">
+                    <button class="btn btn-hover btn-outline-secondary" type="button" id="color3-less">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
+                            <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
+                        </svg>    
+                    </button>
+
+                    <span class="btn btn-outline-secondary color-button" th:classappend="${color3}" th:text="${color3}"></span>
+
+                    <button class="btn btn-hover btn-outline-secondary" type="button" id="color3-more">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
+                            <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    </button>   
+                </div>
+            </div>
+        </div>
+
+        
+        
+
+        <div class="color-buttons btn-group col">
+            <div class="col-12">
+                <div class="row-12 border">
+                    <label class="color_font">Cadency</label> 
+                </div>
+                <div class="row-12 border">
+                    <button class="btn btn-hover btn-outline-secondary" type="button" id="cadency-less">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
+                            <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
+                        </svg>    
+                    </button>
+
+                    <span class="btn btn-outline-secondary color-button btn-number" th:text="@{${cadency+'/'+total_cadency}}"></span>
+
+                    <button class="btn btn-hover btn-outline-secondary" type="button" id="cadency-more">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
+                            <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    </button>   
+                </div>
+            </div>
+        </div>
+
+        <div class="color-buttons btn-group col">
+            <div class="col-12">
+                <div class="row-12 border">
+                    <label class="color_font">Cadency Color</label> 
+                </div>
+                <div class="row-12 border">
+                    <button class="btn btn-hover btn-outline-secondary" type="button" id="color4-less">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
+                            <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
+                        </svg>    
+                    </button>
+
+                    <span class="btn btn-outline-secondary color-button" th:classappend="${color4}" th:text="${color4}"></span>
+
+                    <button class="btn btn-hover btn-outline-secondary" type="button" id="color4-more">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
+                            <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    </button>   
+                </div>
+            </div>
+        </div>
+
+        
+        
+        <div class="color-buttons btn-group col">
+            <div class="col-12">
+                <div class="row-12 border">
+                    <label class="color_font">Heraldic Charges</label> 
+                </div>
+                <div class="row-12 border">
+                    <button class="btn btn-hover btn-outline-secondary" type="button" id="heraldic-charges-less">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
+                            <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
+                        </svg>    
+                    </button>
+
+                    <span class="btn btn-outline-secondary color-button btn-number" th:text="@{${heraldic_charges+'/'+total_heraldic_charges}}"></span>
+
+                    <button class="btn btn-hover btn-outline-secondary" type="button" id="heraldic-charges-more">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
+                            <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    </button>   
+                </div>
+            </div>
+        </div>
+
+        <div class="color-buttons btn-group col">
+            <div class="col-12">
+                <div class="row-12 border">
+                    <label class="color_font">Heraldic Charges Color</label> 
+                </div>
+                <div class="row-12 border">
+                    <button class="btn btn-hover btn-outline-secondary" type="button" id="color5-less">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
+                            <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
+                        </svg>    
+                    </button>
+
+                    <span class="btn btn-outline-secondary color-button" th:classappend="${color5}" th:text="${color5}"></span>
+
+                    <button class="btn btn-hover btn-outline-secondary" type="button" id="color5-more">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
+                            <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    </button>   
+                </div>
+            </div>
+        </div>
     </div>
-    
-        <div class="color-buttons btn-group col">
-            <div class="col-12">
-                <div class="row-12 border">
-                    <label class="color_font">Color 1</label> 
-                </div>
-                <div class="row-12 border">
-                    <button class="btn btn-outline-secondary" type="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
-                            <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
-                        </svg>    
-                    </button>
-
-                    <span class="btn btn-outline-secondary">Color</span>
-
-                    <button class="btn btn-outline-secondary" type="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
-                            <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
-                        </svg>
-                    </button>   
-                </div>
-            </div>
-        </div>
-        <div class="color-buttons btn-group col">
-            <div class="col-12">
-                <div class="row-12 border">
-                    <label class="color_font">Color 2</label> 
-                </div>
-                <div class="row-12 border">
-                    <button class="btn btn-outline-secondary" type="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
-                            <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
-                        </svg>    
-                    </button>
-
-                    <span class="btn btn-outline-secondary">Color</span>
-
-                    <button class="btn btn-outline-secondary" type="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
-                            <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
-                        </svg>
-                    </button>   
-                </div>
-            </div>
-        </div>
-        <div class="color-buttons btn-group col">
-            <div class="col-12">
-                <div class="row-12 border">
-                    <label class="color_font">Color 3</label> 
-                </div>
-                <div class="row-12 border">
-                    <button class="btn btn-outline-secondary" type="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
-                            <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
-                        </svg>    
-                    </button>
-
-                    <span class="btn btn-outline-secondary">Color</span>
-
-                    <button class="btn btn-outline-secondary" type="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
-                            <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
-                        </svg>
-                    </button>   
-                </div>
-            </div>
-        </div>
-        <div class="color-buttons btn-group col">
-            <div class="col-12">
-                <div class="row-12 border">
-                    <label class="color_font">Color 4</label> 
-                </div>
-                <div class="row-12 border">
-                    <button class="btn btn-outline-secondary" type="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
-                            <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
-                        </svg>    
-                    </button>
-
-                    <span class="btn btn-outline-secondary">Color</span>
-
-                    <button class="btn btn-outline-secondary" type="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
-                            <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
-                        </svg>
-                    </button>   
-                </div>
-            </div>
-        </div>
-        <div class="color-buttons btn-group col">
-            <div class="col-12">
-                <div class="row-12 border">
-                    <label class="color_font">Color 5</label> 
-                </div>
-                <div class="row-12 border">
-                    <button class="btn btn-outline-secondary" type="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
-                            <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
-                        </svg>    
-                    </button>
-
-                    <span class="btn btn-outline-secondary">Color</span>
-
-                    <button class="btn btn-outline-secondary" type="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
-                            <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
-                        </svg>
-                    </button>   
-                </div>
-            </div>
-        </div>
-        <div class="color-buttons btn-group col">
-            <div class="col-12">
-                <div class="row-12 border">
-                    <label class="color_font">Color 6</label> 
-                </div>
-                <div class="row-12 border">
-                    <button class="btn btn-outline-secondary" type="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
-                            <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
-                        </svg>    
-                    </button>
-
-                    <span class="btn btn-outline-secondary">Color</span>
-
-                    <button class="btn btn-outline-secondary" type="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
-                            <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
-                        </svg>
-                    </button>   
-                </div>
-            </div>
-        </div>
 </body>
 </html>
